@@ -1,5 +1,4 @@
-Django==5.0
-djangorestframework==3.14.0
-qrcode==7.4.2
-pillow==10.1.0
-django-bootstrap5==23.3
+asgiref==3.8.1
+Django==5.1.4
+sqlparse==0.5.3
+tzdata==2024.2
