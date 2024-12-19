@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Moderator Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Moderator Dashboard</h2>
+            <div>
+                <a href="{% url 'guest-list' %}" class="btn btn-primary">
+                    <i class="bi bi-people"></i> Guest List
+                </a>
+                <a href="{% url 'manage-ticket-types' %}" class="btn btn-info">
+                    <i class="bi bi-ticket"></i> Manage Ticket Types
+                </a>
+                <a href="{% url 'add-guest' %}" class="btn btn-success">
+                    <i class="bi bi-person-plus"></i> Add Guest
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Recent Activity</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Guests</h5>
+                                <p class="card-text display-4">{{ total_guests }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Valid Tickets</h5>
+                                <p class="card-text display-4">{{ valid_tickets }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Used Tickets</h5>
+                                <p class="card-text display-4">{{ used_tickets }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Available Ticket Types</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for type in ticket_types %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ type.title }}</h5>
+                                <p class="card-text">
+                                    <small class="text-muted">Created: {{ type.created_at|date:"Y-m-d" }}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <p class="text-center">No ticket types available. <a href="{% url 'manage-ticket-types' %}">Add some ticket types</a></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function addTicket(userId) {
+    document.getElementById('userId').value = userId;
+    new bootstrap.Modal(document.getElementById('addTicketModal')).show();
+}
+
+function submitTicket() {
+    const form = document.getElementById('ticketForm');
+    const formData = new FormData(form);
+    
+    fetch('/api/tickets/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(formData)),
+    })
+    .then(response => response.json())
+    .then(data => {
+        window.location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error adding ticket');
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Ticket Status{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Ticket Status</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Ticket Information</h5>
+                            <p><strong>Type:</strong> {{ ticket.ticket_type.title }}</p>
+                            <p><strong>Created:</strong> {{ ticket.created_at|date:"Y-m-d H:i" }}</p>
+                            <p>
+                                <strong>Status:</strong>
+                                {% if ticket.status == 'valid' %}
+                                <span class="badge bg-success">Valid</span>
+                                {% else %}
+                                <span class="badge bg-danger">Used</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>User Information</h5>
+                            <p><strong>Name:</strong> {{ ticket.user.get_full_name }}</p>
+                            <p><strong>ID Number:</strong> {{ ticket.user.id_number }}</p>
+                            <p><strong>Field:</strong> {{ ticket.user.field }}</p>
+                        </div>
+                    </div>
+
+                    {% if ticket.status == 'valid' %}
+                    <div class="alert alert-info" role="alert">
+                        This ticket is valid and can be used.
+                    </div>
+                    <form method="post" class="text-center">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            Mark as Used
+                        </button>
+                    </form>
+                    {% else %}
+                    <div class="alert alert-warning" role="alert">
+                        <h4 class="alert-heading">Ticket Already Used!</h4>
+                        <p>This ticket was marked as used on {{ ticket.modified_at|date:"Y-m-d H:i" }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if ticket.qr_code %}
+                    <div class="text-center mt-4">
+                        <img src="{{ ticket.qr_code.url }}" alt="Ticket QR Code" class="img-fluid" style="max-width: 200px;">
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'user-detail' ticket.user.id %}" class="btn btn-secondary">
+                        Back to User Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

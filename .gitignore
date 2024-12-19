@@ -1,0 +1,55 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+db.sqlite3
+
+# Environment variables
+imom_be_2/.env
+deploy.sh
+# Django migrations
+
+
+# Media files
+/media/
+
+
+# Local virtual environments
+imom_be_2/.env/
+venv/
+venv.bak/
+venv-old/
+.virtualenv/
+pip-wheel-metadata/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+copilot_backend_2/.env
+chroma_db/*
+chroma_db/5c422bd7-0551-4a9d-8bd6-9b2c0267aa93/*
+/chroma_db/5c422bd7-0551-4a9d-8bd6-9b2c0267aa93/
+/chroma_db/5c422bd7-0551-4a9d-8bd6-9b2c0267aa93/data_level0.bin
+/chroma_db/5c422bd7-0551-4a9d-8bd6-9b2c0267aa93/header.bin
+/chroma_db/5c422bd7-0551-4a9d-8bd6-9b2c0267aa93/index_metadata.pickle
+/chroma_db/5c422bd7-0551-4a9d-8bd6-9b2c0267aa93/length.bin
+/chroma_db/5c422bd7-0551-4a9d-8bd6-9b2c0267aa93/link_lists.bin
+

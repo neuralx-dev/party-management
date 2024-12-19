@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Add Guest{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h3>Add New Guest</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="field" class="form-label">Field</label>
+                        <input type="text" class="form-control" id="field" name="field" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_number" class="form-label">ID Number</label>
+                        <input type="text" class="form-control" id="id_number" name="id_number" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Add Guest</button>
+                        <a href="{% url 'moderator-dashboard' %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
